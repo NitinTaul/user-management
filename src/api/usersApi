@@ -1,0 +1,48 @@
+// @ts-nocheck
+import axios from "axios";
+
+const BASE_URL = "https://jsonplaceholder.typicode.com/users";
+
+// Get all users
+export async function getUsers() {
+  try {
+    const res = await axios.get(BASE_URL);
+    return res.data;
+  } catch (err) {
+    throw new Error("Failed to fetch users");
+  }
+}
+
+// Add user
+export async function addUser(user) {
+  try {
+    const res = await axios.post(BASE_URL, user, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return { ...user, id: res.data.id || Date.now() };
+  } catch (err) {
+    throw new Error("Failed to add user");
+  }
+}
+
+//Update user
+export async function updateUser(id, user) {
+  try {
+    const res = await axios.put(`${BASE_URL}/${id}`, user, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return res.data;
+  } catch (err) {
+    throw new Error("Failed to update user");
+  }
+}
+
+//  Delete user
+export async function deleteUser(id) {
+  try {
+    await axios.delete(`${BASE_URL}/${id}`);
+    return id;
+  } catch (err) {
+    throw new Error("Failed to delete user");
+  }
+}
